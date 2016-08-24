@@ -1,0 +1,5 @@
+0.0.1
+
+* Initial release
+* Initial data structures for a CASR 61.345 Pilot Personal Logbook.
+* Moved from https://hackage.haskell.org/package/casr-logbook
