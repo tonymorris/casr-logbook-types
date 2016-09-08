@@ -7,8 +7,9 @@ module Data.Aviation.Casr.Logbook.Types.SimulatorFlight(
 , dayonlysimulator
 ) where
 
+import Control.Category((.))
 import Control.Lens(makeClassy)
-import Data.Aviation.Casr.Logbook.Types.Time(Time, dayonly)
+import Data.Aviation.Casr.Logbook.Types.Time(Time, HasTime(time), dayonly)
 import Data.Aviation.Casr.Logbook.Types.Aviator(Aviator)
 import Data.Aviation.Casr.Logbook.Types.TimeAmount(TimeAmount)
 import Data.Eq(Eq)
@@ -28,6 +29,10 @@ data SimulatorFlight =
   } deriving (Eq, Ord, Show)   
 
 makeClassy ''SimulatorFlight
+
+instance HasTime SimulatorFlight where
+  time =
+    simulatorflighttime . time
 
 dayonlysimulator ::
   String

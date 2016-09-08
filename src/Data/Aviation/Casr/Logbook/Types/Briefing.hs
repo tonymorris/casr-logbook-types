@@ -6,11 +6,12 @@ module Data.Aviation.Casr.Logbook.Types.Briefing(
 , HasBriefing(..)
 ) where
   
+import Control.Category((.))
 import Control.Lens(makeClassy)
-import Data.Aviation.Casr.Logbook.Types.Aviator(Aviator)
-import Data.Aviation.Casr.Logbook.Types.Location(Location)
-import Data.Aviation.Casr.Logbook.Types.Time(Time)
-import Data.Aviation.Casr.Logbook.Types.TimeAmount(TimeAmount)
+import Data.Aviation.Casr.Logbook.Types.Aviator(Aviator, HasAviator(aviator))
+import Data.Aviation.Casr.Logbook.Types.Location(Location, HasLocation(location))
+import Data.Aviation.Casr.Logbook.Types.Time(Time, HasTime(time))
+import Data.Aviation.Casr.Logbook.Types.TimeAmount(TimeAmount, HasTimeAmount(timeAmount))
 import Data.Eq(Eq)
 import Data.Ord(Ord)
 import Data.String(String)
@@ -26,3 +27,20 @@ data Briefing =
   } deriving (Eq, Ord, Show)
 
 makeClassy ''Briefing
+
+instance HasLocation Briefing where
+  location =
+    briefingLocation . location
+
+instance HasTime Briefing where
+  time =
+    briefingTime .  time
+
+instance HasAviator Briefing where
+  aviator =
+    briefer . aviator
+
+instance HasTimeAmount Briefing where
+  timeAmount =
+    briefingTimeAmount . timeAmount
+    

@@ -7,10 +7,11 @@ module Data.Aviation.Casr.Logbook.Types.Exam(
 , dayonlyexam
 ) where
 
+import Control.Category((.))
 import Control.Lens(makeClassy)
-import Data.Aviation.Casr.Logbook.Types.Aviator(Aviator)
-import Data.Aviation.Casr.Logbook.Types.Time(Time, dayonly)
-import Data.Aviation.Casr.Logbook.Types.Location(Location)
+import Data.Aviation.Casr.Logbook.Types.Aviator(Aviator, HasAviator(aviator))
+import Data.Aviation.Casr.Logbook.Types.Time(Time, HasTime(time), dayonly)
+import Data.Aviation.Casr.Logbook.Types.Location(Location, HasLocation(location))
 import Data.Eq(Eq)
 import Data.Int(Int)
 import Data.Ord(Ord)
@@ -30,6 +31,18 @@ data Exam =
 
 makeClassy ''Exam
 
+instance HasLocation Exam where
+  location =
+    examLocation . location
+
+instance HasTime Exam where
+  time =
+    examTime . time
+
+instance HasAviator Exam where
+  aviator =
+    examDelegate . aviator
+    
 dayonlyexam ::
   String
   -> Location

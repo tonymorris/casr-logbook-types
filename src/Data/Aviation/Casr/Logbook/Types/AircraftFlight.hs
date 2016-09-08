@@ -12,11 +12,12 @@ module Data.Aviation.Casr.Logbook.Types.AircraftFlight(
 , noif_commandonlyflight
 ) where
 
+import Control.Category((.))
 import Control.Lens(makeClassy)
-import Data.Aviation.Casr.Logbook.Types.Aircraft(Aircraft)
+import Data.Aviation.Casr.Logbook.Types.Aircraft(Aircraft, HasAircraft(aircraft))
 import Data.Aviation.Casr.Logbook.Types.Command(Command(ICUS, Dual, InCommand))
-import Data.Aviation.Casr.Logbook.Types.DayNight(DayNight)
-import Data.Aviation.Casr.Logbook.Types.FlightPath(FlightPath)
+import Data.Aviation.Casr.Logbook.Types.DayNight(DayNight, HasDayNight(dayNight))
+import Data.Aviation.Casr.Logbook.Types.FlightPath(FlightPath, HasFlightPath(flightPath))
 import Data.Aviation.Casr.Logbook.Types.Aviator(Aviator)
 import Data.Aviation.Casr.Logbook.Types.TimeAmount(TimeAmount, zerotimeamount)
 import Data.Eq(Eq)
@@ -37,6 +38,18 @@ data AircraftFlight =
 
 makeClassy ''AircraftFlight
 
+instance HasAircraft AircraftFlight where
+  aircraft =
+    flightaircraft . aircraft
+
+instance HasDayNight AircraftFlight where
+  dayNight =
+    daynight . dayNight
+
+instance HasFlightPath AircraftFlight where
+  flightPath =
+    flightpath . flightPath
+    
 icusonlyflight ::
   String
   -> Aircraft
